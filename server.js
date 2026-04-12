@@ -7,7 +7,7 @@ const sql = new Pool({
     password: "senai",
     host: "localhost",
     port: 5432,
-    database: "receitas"
+    database: "sistema_chamados"
 })
 
 const servidor = Fastify();
@@ -18,25 +18,25 @@ servidor.register(cors, {
 
 servidor.post('/login', async (request, reply) => {
     const body = request.body;
-    if (!body || !body.email || !body.senha) {
-        reply.status(400).send({error: "email e senha obrigatórios!"})
+    if (!body || !body.nome || !body.email || !body.senha) {
+        reply.status(400).send({error: "Nome, email e senha obrigatórios!"})
     }
-    const resultado = await sql.query('select * from usuario where email = $1 AND senha = $2', [body.email, body.senha])    
+    const resultado = await sql.query('select * from responsavel where nome = $1, email = $2 AND senha = $3', [body.nome, body.email, body.senha])    
 
     if (resultado.rows.length === 0) {
         reply.status(401).send({message: "Usuário ou senha inválidos!", login: false})
     } else if (resultado.rows.length === 1) {
-        reply.status(200).send({message: "usuario logado", login: true})
+        reply.status(200).send({message: "Conta logada", login: true})
     }
 
 })
 
-servidor.get('/usuarios', async () => {
-    const resultado = await sql.query('select * from usuario')
+servidor.get('/responsavel', async () => {
+    const resultado = await sql.query('select * from responsavel')
     return resultado.rows
 })
 
-servidor.post('/usuarios', async (request, reply) => {
+servidor.post('/responsavel', async (request, reply) => {
     const body = request.body;
 
     if (!body || !body.nome || !body.senha || !body.email) {
@@ -45,11 +45,11 @@ servidor.post('/usuarios', async (request, reply) => {
         })
     }
 
-    const resultado = await sql.query('INSERT INTO usuario (nome, senha, email) VALUES ($1, $2, $3)', [body.nome, body.senha, body.email])          
+    const resultado = await sql.query('INSERT INTO responsavel (nome, senha, email) VALUES ($1, $2, $3)', [body.nome, body.senha, body.email])          
     reply.status(201).send({message: 'Usuário Criado!'})
 })
 
-servidor.put('/usuarios/:id', async (request, reply) => {
+servidor.put('/responsavel/:id', async (request, reply) => {
     const body = request.body;
     const id = request.params.id;
 
@@ -63,22 +63,22 @@ servidor.put('/usuarios/:id', async (request, reply) => {
         })
     }
 
-    const usuario = await sql.query('select * from usuario where id = $1', [id])  
-    if (usuario.rows.length === 0) {
+    const responsavel = await sql.query('select * from responsavel where id = $1', [id])  
+    if (responsavel.rows.length === 0) {
         return reply.status(400).send({
             message: "Usuário não existe!"
         })
     }
 
-    const resultado = await sql.query('UPDATE usuario SET nome = $1, senha = $2, email = $4 WHERE id = $3', [body.nome, body.senha, id, body.email])      
-    reply.status(201).send({message: `usuario ${body.nome} alterado!`})          
+    const resultado = await sql.query('UPDATE responsavel SET nome = $1, senha = $2, email = $4 WHERE id = $3', [body.nome, body.senha, id, body.email])      
+    reply.status(201).send({message: `Responsável ${body.nome} alterado!`})          
 })
 
-servidor.delete('/usuarios/:id', async (request, reply) => {
+servidor.delete('/chamados/:id', async (request, reply) => {
     const id = request.params.id
-    const resultado = await sql.query('DELETE FROM usuario where id = $1', [id]) 
+    const resultado = await sql.query('DELETE FROM responsavel where id = $1', [id]) 
     console.log(resultado);    
-    reply.status(200).send({message:'Usuário Deletado!'})
+    reply.status(200).send({message:'Responsável Deletado!'})
 })
 
 servidor.listen({   
