@@ -1,3 +1,39 @@
- ###
-GET http://localhost:3000/
 ###
+
+GET http://localhost:3000/responsavel
+
+###
+
+POST http://localhost:3000/responsavel
+Content-Type: application/json
+
+{
+    "nome": "Marcos Vinicius Silva Coelho",
+    "senha": "12345",
+    "email": "marcos@gmail.com"
+}
+
+###
+
+PUT http://localhost:3000/responsavel/1
+Content-Type: application/json
+
+{
+    "nome": "alexandre",
+    "email": "marquinhoLindo@gmail.com",
+    "senha": "12345"
+}
+
+###
+
+DELETE http://localhost:3000/responsavel/2
+
+###
+
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "senha": "12345",
+    "email": "marquinhoLindo@gmail.com"
+}

@@ -1,3 +1,6 @@
+
+
+
 import Fastify from 'fastify'
 import { Pool } from 'pg'
 import cors from '@fastify/cors'
@@ -76,7 +79,7 @@ servidor.put('/responsavel/:id', async (request, reply) => {
 
 servidor.delete('/chamados/:id', async (request, reply) => {
     const id = request.params.id
-    const resultado = await sql.query('DELETE FROM responsavel where id = $1', [id]) 
+    const resultado = await sql.query('DELETE FROM chamado where id = $1', [id]) 
     console.log(resultado);    
     reply.status(200).send({message:'Responsável Deletado!'})
 })
