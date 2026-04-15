@@ -8,9 +8,9 @@ POST http://localhost:3000/responsavel
 Content-Type: application/json
 
 {
-    "nome": "Marcos Vinicius Silva Coelho",
-    "senha": "12345",
-    "email": "marcos@gmail.com"
+    "nome": "Vinícius Ferreira",
+    "senha": "0711",
+    "email": "karateka@gmail.com"
 }
 
 ###
@@ -24,16 +24,33 @@ Content-Type: application/json
     "senha": "12345"
 }
 
-###
-
-DELETE http://localhost:3000/responsavel/2
+### Daqui pra baixo são os chamados
 
 ###
+GET http://localhost:3000/chamados
 
-POST http://localhost:3000/login
+###
+POST http://localhost:3000/chamados
 Content-Type: application/json
 
 {
-    "senha": "12345",
-    "email": "marquinhoLindo@gmail.com"
+    "titulo": "Título genérico",
+    "descricao": "Chamado INSERT",
+    "id_responsavel": "1"
 }
+
+
+###
+PUT http://localhost:3000/chamados/1
+Content-Type: application/json
+
+{
+    "titulo": "SAMARA",
+    "descricao": "Chamado UPDATE",
+    "id_responsavel": "1"
+}
+
+###
+DELETE http://localhost:3000/chamados/1
+
+###

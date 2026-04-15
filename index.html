@@ -1,11 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Sistema de chamados</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <div style="text-align: center;">
+
+    <h1>Cadastre Responsável</h1>
     
+    <div id="divDados">
+    <input type="text" id="nome" placeholder="Digite seu nome"> <br>
+    <input type="password" id="senha" placeholder="Digite seu senha"> <br>
+    <input type="email" id="email" placeholder="Digite seu email"> <br>
+    </div>
+    
+    <button class="button" onclick="cadastrarResponsavel()">Salvar</button>
+    
+    </div>
+        
+    <br>
+
+    <br>
+    
+    <div id="listar-responsavel"></div>
+
+    
+
+    <script>
+
+        async function cadastrarResponsavel(){
+
+            const nome = document.getElementById('nome').value;
+            const senha = document.getElementById('senha').value;
+            const email = document.getElementById('email').value;
+
+            
+            if (!nome || !senha || !email){
+                alert ("preencha todas as informações!")
+                return
+            }
+            
+            await fetch('http://localhost:3000/responsavel', {
+                method: "POST",
+                body: JSON.stringify({nome, senha, email}),
+                headers: {"Content-Type": "application/json"}
+            })
+        }
+
+        </script>
 </body>
 </html>
