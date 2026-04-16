@@ -18,6 +18,7 @@
     <input type="email" id="email" placeholder="Digite seu email"> <br>    
     <input type="password" id="senha" placeholder="Digite seu senha"> <br>
     </div>
+    <a href="login.html">Já tenho uma conta</a> <br>
     
     <button class="button" onclick="cadastrarResponsavel()">Salvar</button>
     
@@ -50,6 +51,8 @@
                 headers: {"Content-Type": "application/json"}
             })
             if (resposta.ok) {
+                const dados = await resposta.json();
+                localStorage.setItem('responsavelId', dados.id)
                 window.location.href = "login.html"
             } else {
                 alert("Erro no cadastro")

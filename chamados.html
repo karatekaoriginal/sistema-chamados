@@ -14,9 +14,8 @@
     <button class="button" onclick="renderizarChamados()">Buscar</button>
     <br>
     
-    <input type="text" id="titulo" placeholder="Digite o título">
-    <input type="text" id="descricao" placeholder="Digite a descrição">
-    <input type="text" id="id" placeholder="Digite a descrição">
+    <input type="text" id="titulo" placeholder="Digite o título"> <br>
+    <input type="text" id="descricao" placeholder="Digite a descrição"> <br>
     
     <button class="button" onclick="cadastrarChamados()">Salvar</button>
     
@@ -49,35 +48,40 @@
                 card.innerHTML = `<h4>${chamado.titulo}</h4>`
                 div.appendChild(card)
             })
+            chamados.forEach(chamado => {
+                const card2 = document.createElement('div');
+                card2.style.border = '1px solid #ccc'
+                card2.innerHTML = `<h4>${chamado.descricao}</h4>`
+                div.appendChild(card)
+            })
 
         }
 
-        renderizarChamados()
 
         async function cadastrarChamados(){
 
             const titulo = document.getElementById('titulo').value;
             const descricao = document.getElementById('descricao').value;
+            const id = localStorage.getItem('responsavelId');
             
-            if (!titulo || !descricao){
+            if (!titulo || !descricao || !id){
                 alert ("Preencha todas as informações!")
                 return
             }
             
             await fetch('http://localhost:3000/chamados', {
                 method: "POST",
-                body: JSON.stringify({titulo, descricao}),
+                body: JSON.stringify({titulo, descricao, id_responsavel:id}),
                 headers: {"Content-Type": "application/json"}
             })
         }
-        cadastrarChamados()
-
         async function editarChamados(){
 
             const titulo = document.getElementById('titulo').value;
             const descricao = document.getElementById('descricao').value;
+            const id = localStorage.getItem('responsavelId');
             
-            if (!titulo || !descricao || !id ){
+            if (!titulo || !descricao){
                 alert ("Preencha todas as informações!")
                 return
             }
@@ -88,7 +92,6 @@
                 headers: {"Content-Type": "application/json"}
             })
         }
-        editarChamados()
 
         </script>
 </body>

@@ -19,15 +19,20 @@ servidor.register(cors, {
 
 servidor.post('/login', async (request, reply) => {
     const body = request.body;
-    if (!body || !body.nome || !body.senha || !body.email) {
-        reply.status(400).send({error: "Nome, email e senha obrigatórios!"})
+    if (!body || !body.senha || !body.email) {
+        return reply.status(400).send({error: "Email e senha obrigatórios!"})
     }
-    const resultado = await sql.query('select * from responsavel where nome = $1 AND senha = $2 AND email = $2' [body.nome, body.senha, body.email])    
+    const resultado = await sql.query('select * from responsavel where senha = $1 AND email = $2', [body.senha, body.email])    
 
     if (resultado.rows.length === 0) {
+
         reply.status(401).send({message: "Usuário ou senha inválidos!", login: false})
+
     } else if (resultado.rows.length === 1) {
-        reply.status(200).send({message: "Conta logada", login: true})
+        reply.status(200).send({
+        message: "Conta logada",
+        login: true,
+        usuario: resultado.rows[0]})
     }
 
 })

@@ -19,7 +19,7 @@
     <input type="password" id="senha" placeholder="Digite seu senha"> <br>
     </div>
     
-    <button class="button" onclick="cadastrarResponsavel()">Salvar</button>
+    <button class="button" onclick="logarResponsavel()">Logar</button>
     
     </div>
         
@@ -33,26 +33,27 @@
 
     <script>
 
-        async function cadastrarResponsavel(){
+        async function logarResponsavel(){
 
-            const nome = document.getElementById('nome').value;
             const senha = document.getElementById('senha').value;
             const email = document.getElementById('email').value;
 
             
-            if (!nome || !senha || !email){
-                alert ("preencha todas as informações!")
+            if (!senha || !email){
+                alert ("Preencha todas as informações!")
                 return
             } else {
-            const resposta = await fetch('http://localhost:3000/responsavel', {
+            const resposta = await fetch('http://localhost:3000/login', {
                 method: "POST",
-                body: JSON.stringify({nome, senha, email}),
+                body: JSON.stringify({senha, email}),
                 headers: {"Content-Type": "application/json"}
             })
+            const dados = await resposta.json();
             if (resposta.ok) {
+                localStorage.setItem('responsavelId', dados.usuario.id_responsavel);
                 window.location.href = "chamados.html"
             } else {
-                alert("Erro no cadastro")
+                alert("Erro no Login")
             }
             } 
 

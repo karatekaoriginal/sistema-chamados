@@ -1,4 +1,7 @@
 ###
+POST http://localhost:3000/login
+
+###
 
 GET http://localhost:3000/responsavel
 
@@ -24,7 +27,6 @@ Content-Type: application/json
     "senha": "12345"
 }
 
-### Daqui pra baixo são os chamados
 
 ###
 GET http://localhost:3000/chamados
@@ -36,7 +38,7 @@ Content-Type: application/json
 {
     "titulo": "Título genérico",
     "descricao": "Chamado INSERT",
-    "id_responsavel": "1"
+    "id_responsavel": 1
 }
 
 
@@ -47,7 +49,7 @@ Content-Type: application/json
 {
     "titulo": "SAMARA",
     "descricao": "Chamado UPDATE",
-    "id_responsavel": "1"
+    "id_responsavel": 1
 }
 
 ###
