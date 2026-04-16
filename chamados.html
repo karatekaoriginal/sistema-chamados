@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chamados</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div style="text-align: center;">
+
+    <h1>Criando chamados</h1>
+    <button class="button" onclick="renderizarChamados()">Buscar</button>
+    <br>
+    
+    <input type="text" id="titulo" placeholder="Digite o título">
+    <input type="text" id="descricao" placeholder="Digite a descrição">
+    <input type="text" id="id" placeholder="Digite a descrição">
+    
+    <button class="button" onclick="cadastrarChamados()">Salvar</button>
+    
+    </div>
+        
+    <br>
+
+    <br>
+    
+    <div id="listar-chamados"></div>
+
+    
+
+    <script>
+        async function buscarChamados(){
+
+            const chamados = await fetch('http://localhost:3000/chamados');
+            const resultado = await chamados.json();
+            console.log(resultado);
+            return resultado;
+        }
+
+        async function renderizarChamados() {
+            const chamados = await buscarChamados();
+            const div = document.getElementById('listar-chamados')
+            
+            chamados.forEach(chamado => {
+                const card = document.createElement('div');
+                card.style.border = '1px solid #ccc'
+                card.innerHTML = `<h4>${chamado.titulo}</h4>`
+                div.appendChild(card)
+            })
+
+        }
+
+        renderizarChamados()
+
+        async function cadastrarChamados(){
+
+            const titulo = document.getElementById('titulo').value;
+            const descricao = document.getElementById('descricao').value;
+            
+            if (!titulo || !descricao){
+                alert ("Preencha todas as informações!")
+                return
+            }
+            
+            await fetch('http://localhost:3000/chamados', {
+                method: "POST",
+                body: JSON.stringify({titulo, descricao}),
+                headers: {"Content-Type": "application/json"}
+            })
+        }
+        cadastrarChamados()
+
+        async function editarChamados(){
+
+            const titulo = document.getElementById('titulo').value;
+            const descricao = document.getElementById('descricao').value;
+            
+            if (!titulo || !descricao || !id ){
+                alert ("Preencha todas as informações!")
+                return
+            }
+            
+            await fetch('http://localhost:3000/chamados', {
+                method: "PUT",
+                body: JSON.stringify({titulo, descricao}),
+                headers: {"Content-Type": "application/json"}
+            })
+        }
+        editarChamados()
+
+        </script>
+</body>
+</html>
